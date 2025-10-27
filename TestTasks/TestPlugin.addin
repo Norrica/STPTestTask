@@ -1,0 +1,11 @@
+<RevitAddIns>
+<AddIn Type="Application">
+	<Name>TestTask</Name>
+	<Assembly>TestTasks.dll</Assembly>
+	<AddInId>75F6D6A2-DC16-4335-9C90-1267C14968C4</AddInId>
+	<FullClassName>TestTasks.Application</FullClassName>
+	<Text>Hope to work with y'all</Text>
+	<VendorId>MyId</VendorId>
+	<VendorDescription></VendorDescription>
+</AddIn>
+</RevitAddIns>
