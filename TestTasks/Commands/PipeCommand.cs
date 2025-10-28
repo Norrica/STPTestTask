@@ -12,14 +12,12 @@ namespace TestTasks
     [Transaction(TransactionMode.Manual)]
     internal class PipeCommand : IExternalCommand
     {
-        private RevitAPISingleton _api { get; set; }
-        private ISelectionFilter _filter { get; set; }
+        private RevitAPISingleton Api { get; set; }
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            _api = RevitAPISingleton.getInstance(commandData);
-            
-            UIDocument uidoc = _api.uidoc;
-            Document doc = _api.doc;
+            Api = RevitAPISingleton.getInstance(commandData);
+
+            UIDocument uidoc = Api.Uidoc;
             try
             {
                 // TODO Понять что значит "Есть вход но выход пустой" и реализовать ошибку на зацикленность
@@ -42,10 +40,10 @@ namespace TestTasks
                             TaskDialog.Show("Ошибка", "Трубы в разных системах", TaskDialogCommonButtons.Cancel);
                             return Result.Cancelled;
                         }
-                        totalLength += item.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble();
+                        totalLength += item.GetLength();
                     }
                 }
-                
+
                 if (failureIds.Count > 0)
                 {
                     uidoc.Selection.SetElementIds(failureIds);
@@ -53,19 +51,15 @@ namespace TestTasks
                     return Result.Cancelled;
                 }
                 totalLength = UnitUtils.Convert(totalLength, UnitTypeId.Feet, UnitTypeId.Millimeters);
-                TaskDialog.Show("Общая длина", $"{totalLength} mm",TaskDialogCommonButtons.Ok);
+                TaskDialog.Show("Общая длина", $"{totalLength} mm", TaskDialogCommonButtons.Ok);
                 return Result.Succeeded;
             }
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
+            catch (Autodesk.Revit.Exceptions.OperationCanceledException)
             {
                 return Result.Cancelled;
-                //Pressed Esc
             }
-
-            
         }
 
-        
     }
 
     internal class PipeSelectionFilter : ISelectionFilter
@@ -76,18 +70,15 @@ namespace TestTasks
             {
                 return elem is Pipe;
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 return false;
             }
-            
-            //throw new System.NotImplementedException();
         }
 
         public bool AllowReference(Reference reference, XYZ position)
         {
             return false;
-            //throw new System.NotImplementedException();
         }
     }
 }

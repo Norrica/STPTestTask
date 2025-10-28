@@ -1,19 +1,12 @@
-﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 using System;
-using System.Collections.Generic;
-using System.Configuration.Assemblies;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace TestTasks
 {
-    public class Application : IExternalApplication
+    public class Addin : IExternalApplication
     {
         private readonly string assemblyPath = Assembly.GetExecutingAssembly().Location;
         private readonly Uri PipeIcon = new Uri(@"/TestTasks;component/Resources/pipe.ico", UriKind.RelativeOrAbsolute);
@@ -30,10 +23,10 @@ namespace TestTasks
             application.CreateRibbonTab(tabName);
 
             RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName, "Решения");
-
-            var button = AddPushButton(ribbonPanel, "Трубы", $"TestTasks.PipeCommand", "Задание 1",PipeIcon);
-            var button3 = AddPushButton(ribbonPanel, "Краны",  $"TestTasks.ValveCommand", "Задание 2", ValveIcon);
-            var button2 = AddPushButton(ribbonPanel, "Тесты", $"TestTasks.PipeFind", "Всплывающая подсказка", PipeIcon);
+            
+            AddPushButton(ribbonPanel, "1)Трубы", $"TestTasks.PipeCommand", "Задание 1", PipeIcon);
+            AddPushButton(ribbonPanel, "2)Краны",  $"TestTasks.ValveCommand", "Задание 2", ValveIcon);
+            AddPushButton(ribbonPanel, "Тест",  $"TestTasks.IdPicker", "Тест", ValveIcon);
 
 
 

@@ -37,6 +37,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\Revit_All_Main_Versions_API_x64.2022.0.0\lib\net48\RevitAPI.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -49,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,26 +62,39 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
-    <Compile Include="PipeTraversal.cs" />
-    <Compile Include="TEstCa.cs" />
-    <Compile Include="ValveCommand.cs" />
-    <Compile Include="PickObject.cs" />
-    <Compile Include="PipeCommand.cs" />
+    <Compile Include="Addin.cs" />
+    <Compile Include="Commands\IdPicker.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="WPFApp\Models\ValveInfo.cs" />
+    <Compile Include="WPFApp\ViewModels\ValveDistanceViewModel.cs" />
+    <Compile Include="WPFApp\Views\InfoDisplayWindow.xaml.cs">
+      <DependentUpon>InfoDisplayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\PipeTraversal.cs" />
+    <Compile Include="Commands\ValveCommand.cs" />
+    <Compile Include="Commands\PipeCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RevitAPISingleton.cs" />
+    <Compile Include="Utils\RevitAPISingleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="TestPlugin.addin" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\valve.ico" />
+    <Resource Include="Resources\valve.ico" />
     <Resource Include="Resources\pipe.ico" />
     <Content Include="Runner.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="WPFApp\Views\InfoDisplayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy "$(ProjectDir)TestPlugin.addin" "$(TargetDir)"
